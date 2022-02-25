@@ -6,6 +6,7 @@ django-appconf==1.0.5
 django-bootstrap-v5==1.0.10
 django-braces==1.15.0
 django-imagekit==4.1.0
+gunicorn==20.1.0
 misaka==2.1.1
 pilkit==2.0
 Pillow==9.0.1

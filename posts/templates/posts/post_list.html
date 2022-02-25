@@ -1,0 +1,80 @@
+{% extends "posts/post_base.html" %}
+{% block title %}
+  Post List
+{% endblock %}
+
+{% block prepost %}
+  <div class="col-md-4">
+    {% if request.user.is_authenticated %}
+      <div class="card card-with-shadow p-3 m-3">
+        <div class="content">
+          <h5 class='title'>Your Groups</h5>
+          <ul class='list-unstyled'>
+            {% for member_group in user_groups %}
+              <li class='group li-with-bullet'>
+                <a class="no-decoration-link" href="{% url 'groups:single' slug=member_group.slug %}">{{ member_group.name }}</a>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    {% endif %}
+      <div class="card card-with-shadow p-3 m-3">
+        <div class="content">
+            <h5 class='title'>All Groups</h5>
+            <ul class='list-unstyled'>
+              {% for other_group in all_groups %}
+                <li class='group li-with-bullet'>
+                  <a class="no-decoration-link" href="{% url 'groups:single' slug=other_group.slug %}">{{ other_group.name }}</a>
+                </li>
+              {% endfor %}
+            </ul>
+        </div>
+      </div>
+    </div>
+{% endblock %}
+
+{% block post_content %}
+  <div class="col-md-8">
+    <nav aria-label="Page navigation">
+      <ul class="pagination mt-3">
+        {% if posts.has_previous %}
+          <li class="page-item">
+              <a class="page-link" href="?page={{ posts.previous_page_number }}" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+              </a>
+          </li>
+        {% else %}
+          <li class="page-item disabled">
+              <a class="page-link" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+              </a>
+          </li>
+        {% endif %}
+        {% for i in paginator.page_range  %}
+          {% if i == posts.number %}
+            <li class="page-item active"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+          {% else %}
+            <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+          {% endif %}
+        {% endfor %}
+        {% if posts.has_next %}
+          <li class="page-item">
+              <a class="page-link" href="?page={{ posts.next_page_number }}" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+              </a>
+          </li>
+        {% else %}
+          <li class="page-item disabled">
+              <a class="page-link" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+              </a>
+          </li>
+        {% endif %}
+        </ul>
+      </nav>
+    {% for post in posts %}
+      {% include "posts/_post.html" %}
+    {% endfor %}
+  </div>
+{% endblock %}

@@ -1,0 +1,127 @@
+{% extends 'base.html' %}
+{% block title %} Home {% endblock %}
+{% block content %}
+  <div class="container">
+    <div class="row">
+      <div class="col-md-1">
+      </div>
+      <div class="col-md-10 text-center p-4">
+        <h1>Welcome to PetSocial!</h1>
+        <hr>
+        <h3>Your go-to place to connect with fellow animal enthusiasts from around the world!</h3>
+        <div class="row mt-5 mb-5">
+          {% if not user.is_authenticated %}
+          <div class="col-md-4">
+            <div class="card shadow-sm" style="width: 18rem;">
+              <div class="card-body">
+                <h5 class="card-title">Browse Groups</h5>
+                <h6 class="card-subtitle mb-2 text-muted">Find the one for you</h6>
+                <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus metus lectus, sodales eu aliquam sit amet, finibus vel elit.</p>
+                <a href="{% url 'groups:all' %}" class="no-decoration-link">See Groups</a>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="card shadow-sm" style="width: 18rem;">
+              <div class="card-body">
+                <h5 class="card-title">Signup</h5>
+                <h6 class="card-subtitle mb-2 text-muted">Create a new account</h6>
+                <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus metus lectus, sodales eu aliquam sit amet, finibus vel elit.</p>
+                <a href="{% url 'accounts:signup' %}" class="no-decoration-link">Create Account</a>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="card shadow-sm" style="width: 18rem;">
+              <div class="card-body">
+                <h5 class="card-title">Login</h5>
+                <h6 class="card-subtitle mb-2 text-muted">Get socializing</h6>
+                <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus metus lectus, sodales eu aliquam sit amet, finibus vel elit.</p>
+                <a href="{% url 'accounts:login' %}" class="no-decoration-link">Login</a>
+              </div>
+            </div>
+          </div>
+          {% else %}
+          <div class="col-md-4">
+            <div class="card shadow-sm" style="width: 18rem;">
+              <div class="card-body">
+                <h5 class="card-title">Browse Groups</h5>
+                <h6 class="card-subtitle mb-2 text-muted">Find the one for you</h6>
+                <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus metus lectus, sodales eu aliquam sit amet, finibus vel elit.</p>
+                <a href="{% url 'groups:all' %}" class="no-decoration-link">See Groups</a>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="card shadow-sm" style="width: 18rem;">
+              <div class="card-body">
+                <h5 class="card-title">Create Group</h5>
+                <h6 class="card-subtitle mb-2 text-muted">Bring people together</h6>
+                <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus metus lectus, sodales eu aliquam sit amet, finibus vel elit.</p>
+                <a href="{% url 'accounts:signup' %}" class="no-decoration-link">Create Group</a>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="card shadow-sm" style="width: 18rem;">
+              <div class="card-body">
+                <h5 class="card-title">See Profile</h5>
+                <h6 class="card-subtitle mb-2 text-muted">Check your posts</h6>
+                <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus metus lectus, sodales eu aliquam sit amet, finibus vel elit.</p>
+                <a href="{% url 'posts:for_user' username=user.username %}" class="no-decoration-link">Profile</a>
+              </div>
+            </div>
+          </div>
+          {% endif %}
+        </div>
+        <h1>Check out some of our most popular posts: </h1>
+        <hr>
+      </div>
+    </div>
+    <div class="row mb-5">
+      <div class="col-md-1">
+      </div>
+      <div class="col-md-10">
+        {% for post in posts %}
+          {% if forloop.counter|divisibleby:2 %}
+            <div class="card mb-3 shadow-sm" data-aos="fade-down">
+              <div class="row g-0">
+                <div class="col-md-8">
+                  <div class="card-body">
+                    <h2 class="card-title"><a href="{% url 'posts:single' username=post.user.username pk=post.pk %}" class="no-decoration-link">{{ post.title }}</a></h2>
+                    <p class="card-text"><small class="text-muted">Posted in <a href="{% url 'groups:single' slug=post.group.slug %}" class="no-decoration-link">{{ post.group }}</a></small></p>
+                    <hr>
+                    <p class="card-text">{{ post.message_html|safe }}</p>
+                    <p class="card-text"><small class="text-muted">{{ post.post_likes.count }} likes</small></p>
+                    <p class="card-text"><small class="text-muted">{{ post.post_comments.count }} comments</small></p>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <img src="{{ post.thumbnail_image.url }}" class="img-fluid rounded-start p-2" alt="...">
+                </div>
+              </div>
+            </div>
+          {% else %}
+            <div class="card mb-3 shadow-sm" data-aos="fade-down">
+              <div class="row g-0">
+                <div class="col-md-4">
+                  <img src="{{ post.thumbnail_image.url }}" class="img-fluid rounded-start p-2" alt="...">
+                </div>
+                <div class="col-md-8">
+                  <div class="card-body">
+                    <h2 class="card-title"><a href="{% url 'posts:single' username=post.user.username pk=post.pk %}" class="no-decoration-link">{{ post.title }}</a></h2>
+                    <p class="card-text"><small class="text-muted">Posted in <a href="{% url 'groups:single' slug=post.group.slug %}" class="no-decoration-link">{{ post.group }}</a></small></p>
+                    <hr>
+                    <p class="card-text">{{ post.message_html|safe }}</p>
+                    <p class="card-text"><small class="text-muted">{{ post.post_likes.count }} likes</small></p>
+                    <p class="card-text"><small class="text-muted">{{ post.post_comments.count }} comments</small></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+{% endblock %}

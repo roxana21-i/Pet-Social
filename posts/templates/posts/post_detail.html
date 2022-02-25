@@ -1,0 +1,82 @@
+{% extends "posts/post_base.html" %}
+{% load bootstrap5 %}
+{% block title %}
+  {{ post.title }}
+{% endblock %}
+
+{% block post_content %}
+  <div class="col-md-2">
+  </div>
+  <div class="col-md-8 p-2">
+    {% include "posts/_post.html" %}
+    <input type="button" class="btn btn-primary" id="commentFormButton" value="Add Comment">
+    <form method="post" action="{% url 'posts:comment' username=user.username pk=post.pk %}" class="mt-2" id="commentForm">
+      {% csrf_token %}
+      {% bootstrap_form form_comment %}
+      <input type="submit" class="btn btn-primary btn large" value="Add Comment">
+    </form>
+    {% for comment in post.post_comments.all %}
+      {% if not comment.parent_comment %}
+        <div class="comment-content">
+          {{ comment.created_date }}
+          <p>{{ comment.text|safe|linebreaks }}</p>
+          <div class="comment-info">
+            <p>Posted by: {{comment.author}}</p>
+            <p>Posted: {{comment.create_date}} <span class="reply-link"><input type="button" class="btn btn-primary" id="replyFormButton_{{ comment.pk }}" value="Add Reply" onClick="showForm({{ comment.pk }})"></span></p>
+            <form method="post" action="{% url 'posts:reply' username=user.username post_pk=post.pk comment_pk=comment.pk %}" class="mt-2 replyForm" id="replyForm_{{ comment.pk }}">
+              {% csrf_token %}
+              {% bootstrap_form form_reply %}
+              <input type="submit" class="btn btn-primary btn large" value="Add Reply">
+            </form>
+          </div>
+        </div>
+        {% for reply in comment.replies.all %}
+          <div class="reply-content">
+            <p><span><a class="no-decoration-link" href="{% url 'posts:for_user' username=user.username %}">@{{ reply.parent_comment.author }}</a></span>: {{ reply.text|safe|escape }}</p>
+            <div class="comment-info">
+              <p>Posted by: {{reply.author}}</p>
+              <p>Posted: {{reply.create_date}} <span class="reply-link"><input type="button" class="btn btn-primary" id="replyFormButton_{{ reply.pk }}" value="Add Reply" onClick="showForm({{ reply.pk }})"></span></p>
+              <form method="post" action="{% url 'posts:reply' username=user.username post_pk=post.pk comment_pk=comment.pk %}" class="mt-2 replyForm" id="replyForm_{{ reply.pk }}">
+                {% csrf_token %}
+                {% bootstrap_form form_reply %}
+                <input type="submit" class="btn btn-primary btn large" value="Add Reply">
+              </form>
+            </div>
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endfor %}
+
+  </div>
+
+  <script type="text/javascript">
+    $(document).ready(function(){
+      $('#commentFormButton').click(function(){
+          $('#commentForm').toggle();
+          if ($(this).attr('value') == 'Add Comment'){
+            $(this).val('Cancel')
+          }
+          else {
+            $(this).val('Add Comment')
+          }
+      });
+    });
+
+    function showForm(pk){
+      var id_button = "#replyFormButton_".concat(pk);
+      var id_form = "#replyForm_".concat(pk);
+      var initial = $(id_button).attr('value')
+      $(id_form).toggle();
+      console.log($(id_button).attr('value'));
+      if ($(id_button).attr('value') == "Add Reply"){
+        console.log('hi!');
+        $(id_button).val('Cancel');
+      }
+      else {
+        console.log('bye!');
+        $(id_button).val('Add Reply');
+      }
+
+    }
+  </script>
+{% endblock %}

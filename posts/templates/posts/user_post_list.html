@@ -1,0 +1,94 @@
+{% extends "posts/post_base.html" %}
+{% load bootstrap5 %}
+{% block title %}
+  {{ post_user.username }}'s Posts
+{% endblock %}
+{% block prepost %}
+  <div class="col-md-4 p-3">
+    <h1>@{{ post_user.username }}</h1>
+    <div class="container p-3 mt-2">
+      <img src="{{ post_user.profile.avatar_thumbnail.url }}" alt="">
+    </div>
+    {% if user.is_authenticated and user.username == post_user.username %}
+      <div class="container p-3 mt-2">
+        <input type="button" class="btn btn-warning" value="Edit Profile" id="avatarFormButton">
+        <form action="{% url 'posts:change_picture' username=user.username %}" method="post" id="avatarForm" enctype="multipart/form-data">
+          {% csrf_token %}
+          {% bootstrap_form form %}
+          <input type="submit" name="" value="Change">
+        </form>
+      </div>
+    {% endif %}
+    <div class="card card-with-shadow p-3">
+      <div class="content">
+        <h5 class='title'>{{ post_user.username }}'s Groups</h5>
+        <ul class='list-unstyled'>
+          {% for member_group in user_groups %}
+            <li class='group li-with-bullet'>
+              <a href="{% url 'groups:single' slug=member_group.slug %}">{{ member_group.name }}</a>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+{% block post_content %}
+  <div class="col-md-8">
+    <nav aria-label="Page navigation example">
+      <ul class="pagination mt-3">
+        {% if page_obj.has_previous %}
+          <li class="page-item">
+              <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+              </a>
+          </li>
+        {% else %}
+          <li class="page-item disabled">
+              <a class="page-link" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+              </a>
+          </li>
+        {% endif %}
+        {% for i in paginator.page_range  %}
+          {% if i == page_obj.number %}
+            <li class="page-item active"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+          {% else %}
+            <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+          {% endif %}
+        {% endfor %}
+        {% if page_obj.has_next %}
+          <li class="page-item">
+              <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+              </a>
+          </li>
+        {% else %}
+          <li class="page-item disabled">
+              <a class="page-link" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+              </a>
+          </li>
+        {% endif %}
+        </ul>
+      </nav>
+    {% for post in page_obj %}
+      {% include "posts/_post.html" %}
+    {% endfor %}
+  </div>
+
+  <script type="text/javascript">
+  $(document).ready(function(){
+    $('#avatarFormButton').click(function(){
+        $('#avatarForm').toggle();
+        if ($(this).attr('value') == 'Edit Profile'){
+          $(this).val('Cancel')
+        }
+        else {
+          $(this).val('Edit Profile')
+        }
+    });
+  });
+  </script>
+
+{% endblock %}

@@ -1,0 +1,48 @@
+{% load static %}
+<div class="post-media mt-3">
+  <h1><a class="no-decoration-link" href="{% url 'posts:single' username=post.user.username pk=post.pk %}">{{ post.title }}</a></h1>
+  <h4>Posted in <a class="no-decoration-link" href="{% url 'groups:single' slug=post.group.slug %}">{{ post.group.name }}</a></h4>
+  <hr>
+  <p>{{ post.message_html|safe }}</p>
+  {% if post.image %}
+    <img src="{{ post.image.url }}" alt="No Image to display:(">
+  {% endif %}
+  <div class="media-body mt-2">
+    <h5 class='media-heading'>
+      <span class='username'>
+        <a class="no-decoration-link" href="{% url 'posts:for_user' username=post.user.username %}">@{{post.user.username}}</a>
+      </span>
+      <time class='time'>
+          {{ post.created_at }}
+      </time>
+    </h5>
+    <p>{{ post.post_likes.all.count }} like{{ post.post_likes.all.count|pluralize }}
+    {% if is_detail %}
+      {% if user.is_authenticated %}
+        {% if is_liked %}
+          <span><a href="{% url 'posts:remove_like' username=user.username post_pk=post.pk like_pk=like.pk %}">Remove Like</a></span>
+        {% else %}
+          <span><a href="{% url 'posts:add_like' username=user.username pk=post.pk %}">Like</a></span>
+        {% endif %}
+      {% endif %}
+    {% endif %}
+    </p>
+    <div class="post-footer">
+      {% if not is_delete_view %}
+        {% if user.is_authenticated and post.user == user %}
+          <a href="{% url 'posts:delete' pk=post.pk %}" title="delete" class='btn mt-2 custom-delete-button'>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle" viewBox="0 0 16 16">
+              <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+              <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+            </svg>
+            Delete
+          </a>
+        {% endif %}
+      {% endif %}
+    </div>
+  </div>
+  <hr>
+  <div class="comments-section">
+
+  </div>
+</div>

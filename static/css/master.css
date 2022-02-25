@@ -1,0 +1,138 @@
+body {
+  font-family: 'PT Serif', serif;
+  background-color: #FFFBFA;
+}
+
+.pre-group-list {
+  text-align: left;
+  padding-top: 10%;
+}
+
+.list-group {
+  padding: 5%;
+}
+
+.no-decoration-link {
+  text-decoration: none;
+  color: #23061E;
+}
+
+.no-decoration-link:hover {
+  color: #AE1E96;
+}
+
+.animal-scroller {
+  height: 15%;
+}
+
+.post-detail {
+
+}
+
+#commentForm {
+  display: none;
+}
+
+#avatarForm {
+  display: none;
+}
+
+.replyForm {
+  display: none;
+}
+
+.comment-content {
+  background: white;
+  padding: 15px;
+  box-shadow: 0px 8px 15px rgba(0,0,0,0.25);
+  border-radius: 10px;
+  margin-top: 20px;
+}
+
+.comment-info {
+  line-height: 0.5em;
+}
+
+.reply-content {
+  background: white;
+  padding: 15px;
+  box-shadow: 0px 8px 15px rgba(0,0,0,0.25);
+  border-radius: 10px;
+  margin-left: 10%;
+  margin-top: 10px;
+}
+
+/* body {
+  background-color: black;
+} */
+
+.post-media img{
+  width:100%;
+  height:auto;
+  object-fit: cover;
+}
+
+#myBtn {
+  display: none; /* Hidden by default */
+  position: fixed; /* Fixed/sticky position */
+  bottom: 20px; /* Place the button at the bottom of the page */
+  right: 30px; /* Place the button 30px from the right */
+  z-index: 99; /* Make sure it does not overlap */
+  border: none; /* Remove borders */
+  outline: none; /* Remove outline */
+  background-color: #FCD581; /* Set a background color */
+  color: black; /* Text color */
+  cursor: pointer; /* Add a mouse pointer on hover */
+  padding: 10px; /* Some padding */
+  border-radius: 10px; /* Rounded corners */
+}
+
+#myBtn:hover {
+  background-color: #EFA506; /* Add a dark-grey background on hover */
+}
+
+.custom-nav {
+  background-color: #270722;
+  color: white;
+}
+
+.custom-footer {
+  background-color: #270722;
+}
+
+.custom-carousel {
+  background-color: #23061E;
+}
+
+.custom-pill {
+  background-color: #F7A278;
+}
+
+.custom-success-button {
+  background-color: #519872;
+  color: white;
+}
+
+.custom-success-button:hover {
+  background-color: #396A50;
+  color: white;
+}
+
+.custom-delete-button {
+  background-color: #AB3428;
+  color: white;
+}
+
+.custom-delete-button:hover {
+  background-color: #74231B;
+  color: white;
+}
+
+.bigbrand{
+  font-size: 1.5em;
+  padding: 10px 10px 10px 0px;
+}
+
+/* Image Slider */
+
+/* End Image Slider */

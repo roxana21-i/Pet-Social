@@ -27,14 +27,17 @@ class SingleGroup(generic.DetailView):
         else:
             posts = paginator = Paginator(Post.objects.filter(group=self.object).order_by('created_at'), 3)  # will show 3 items in one page
         posts_for_likes = Post.objects.filter(group=self.object)
-        likes_dict = {}
+        liked = []
+        not_liked = []
         for post in posts_for_likes:
             if Like.objects.filter(post=post, user=self.request.user).count() == 1:
-                likes_dict[post.pk] = 1
+                liked.append(post)
             else:
-                likes_dict[post.pk] = 0
-        context['likes'] = likes_dict
+                not_liked.append(post)
+        context['liked'] = liked
+        context['not_liked'] = not_liked
         context['paginator'] = posts
+        context['is_group'] = True
         context['posts'] = posts.get_page(page)
 
         return context

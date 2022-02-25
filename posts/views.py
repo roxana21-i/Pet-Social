@@ -99,6 +99,8 @@ class PostDetail(SelectRelatedMixin, generic.DetailView):
         context['is_liked'] = models.Like.objects.filter(user=self.request.user, post=self.object).count() == 1
         if context['is_liked'] == 1:
             context['like'] = models.Like.objects.get(user=self.request.user, post=self.object)
+        context['is_group'] = True
+
         return context
 
     def get_queryset(self):
@@ -179,13 +181,32 @@ def add_like_to_post(request, username, pk):
     return redirect('posts:single', username=post.user.username, pk=pk)
 
 @login_required
-def remove_like_from_post(request, username, post_pk, like_pk):
-    like = get_object_or_404(models.Like, pk=like_pk)
+def add_like_to_post_group_view(request, username, pk, page):
+    post = get_object_or_404(models.Post, pk=pk)
+    user = get_object_or_404(User, id=request.user.id)
+
+    like = models.Like(post=post, user=user)
+    like.save()
+
+    return redirect(reverse('groups:single', kwargs={'slug':post.group.slug}) + "?page=" + page)
+
+@login_required
+def remove_like_from_post(request, username, post_pk):
     post = get_object_or_404(models.Post, pk=post_pk)
+    like = models.Like.objects.get(user=request.user, post=post)
 
     models.Like.objects.filter(pk=like.pk).delete()
 
     return redirect('posts:single', username=post.user.username, pk=post.pk)
+
+@login_required
+def remove_like_from_post_group_view(request, username, post_pk, page):
+    post = get_object_or_404(models.Post, pk=post_pk)
+    like = models.Like.objects.get(user=request.user, post=post)
+
+    models.Like.objects.filter(pk=like.pk).delete()
+
+    return redirect(reverse('groups:single', kwargs={'slug':post.group.slug}) + "?page=" + page)
 
 @login_required
 def update_profile_picture(request, username):

@@ -17,15 +17,23 @@
       </time>
     </h5>
     <p>{{ post.post_likes.all.count }} like{{ post.post_likes.all.count|pluralize }}
-    {% if is_detail %}
+    {# {% if is_detail %} #}
       {% if user.is_authenticated %}
         {% if is_liked %}
-          <span><a href="{% url 'posts:remove_like' username=user.username post_pk=post.pk like_pk=like.pk %}">Remove Like</a></span>
+          <span><a href="{% url 'posts:remove_like_post' username=user.username post_pk=post.pk %}">Remove Like</a></span>
         {% else %}
-          <span><a href="{% url 'posts:add_like' username=user.username pk=post.pk %}">Like</a></span>
+          {% if is_group and post in liked %}
+            <span><a href="{% url 'posts:remove_like_group' username=user.username post_pk=post.pk page=posts.number %}">Remove Like</a></span>
+          {% else %}
+            {% if is_group %}
+              <span><a href="{% url 'posts:add_like_group' username=user.username pk=post.pk page=posts.number %}">Like</a></span>
+            {% else %}
+              <span><a href="{% url 'posts:add_like_post' username=user.username pk=post.pk %}">Like</a></span>
+            {% endif %}
+          {% endif %}
         {% endif %}
       {% endif %}
-    {% endif %}
+    {# {% endif %} #}
     </p>
     <div class="post-footer">
       {% if not is_delete_view %}

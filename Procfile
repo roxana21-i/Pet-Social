@@ -1,1 +1,1 @@
-web: gunicorn PetSocial.wsgi
+web: gunicorn PetSocial.wsgi --log-file -

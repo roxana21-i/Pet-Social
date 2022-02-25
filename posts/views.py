@@ -99,7 +99,7 @@ class PostDetail(SelectRelatedMixin, generic.DetailView):
         context['is_liked'] = models.Like.objects.filter(user=self.request.user, post=self.object).count() == 1
         if context['is_liked'] == 1:
             context['like'] = models.Like.objects.get(user=self.request.user, post=self.object)
-        context['is_group'] = True
+        #context['is_group'] = False
 
         return context
 

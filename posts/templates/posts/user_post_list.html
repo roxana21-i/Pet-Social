@@ -7,7 +7,7 @@
   <div class="col-md-4 p-3">
     <h1>@{{ post_user.username }}</h1>
     <div class="container p-3 mt-2">
-      <img src="{{ post_user.profile.avatar_thumbnail.url }}" alt="">
+      <img src="{{ post_user.profile.avatar.url }}" alt="">
     </div>
     {% if user.is_authenticated and user.username == post_user.username %}
       <div class="container p-3 mt-2">

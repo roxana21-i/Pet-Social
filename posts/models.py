@@ -5,6 +5,7 @@ from django.utils import timezone
 from imagekit.models import ImageSpecField
 from imagekit.processors import SmartResize, ColorOverlay
 from imagekit.lib import ImageColor
+from cloudinary.models import CloudinaryField
 import misaka
 from groups.models import Group
 from django.contrib.auth import get_user_model
@@ -17,11 +18,12 @@ class Post(models.Model):
     title = models.CharField(max_length=255)
     message = models.TextField()
     message_html = models.TextField(editable=False)
-    image = models.ImageField(upload_to='post_images/', null=True)
-    thumbnail_image = ImageSpecField(source='image',
-                                      processors=[SmartResize(300,300), ColorOverlay(color=ImageColor.getrgb('#454545'))],
-                                      format='JPEG',
-                                      options={'quality': 100})
+    image = CloudinaryField('image', blank=True, null=True)
+    # image = models.ImageField(upload_to='post_images/', null=True)
+    # thumbnail_image = ImageSpecField(source='image',
+    #                                   processors=[SmartResize(300,300), ColorOverlay(color=ImageColor.getrgb('#454545'))],
+    #                                   format='JPEG',
+    #                                   options={'quality': 100})
     group = models.ForeignKey(Group, related_name='posts', blank=True, on_delete=models.CASCADE)
 
     def __str__(self):

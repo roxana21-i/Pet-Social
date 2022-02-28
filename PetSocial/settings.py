@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 from pathlib import Path
 import django_heroku
 import cloudinary
+import cloudinary.uploader
+import cloudinary.api
 import cloudinary_storage
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -128,6 +130,12 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+
+cloudinary.config(
+  cloud_name = "hkeiufmpv",
+  api_key = "326798162376227",
+  api_secret = "yLZ1H9WFThUbzTJ68xzK6zJxCgM" 
+)
 
 # Cloudinary stuff
 CLOUDINARY_STORAGE = {

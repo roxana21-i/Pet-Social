@@ -7,6 +7,8 @@ env/
 # Database
 db.sqlite3
 # Editor directories and files
+# Project asset folders
+media/
 .idea
 # Byte-compiled / optimized / DLL files
 __pycache__/

@@ -5,10 +5,20 @@
 {% endblock %}
 
 {% block post_content %}
-  <h4>Create a new post</h4>
-  <form id='postForm' method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    {% bootstrap_form form %}
-    <input type="submit" class="btn btn-primary btn large" value="Post">
-  </form>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-2">
+      </div>
+      <div class="col-md-8 mt-4">
+        <h1 class="text-center">Create a new post!</h1>
+        <hr>
+        <h4 class="text-muted text-center">Share your story!</h4>
+        <form id='postForm' method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+          {% bootstrap_form form %}
+          <input type="submit" class="btn btn-outline-success btn large" value="Post">
+        </form>
+      </div>
+    </div>
+  </div>
 {% endblock %}

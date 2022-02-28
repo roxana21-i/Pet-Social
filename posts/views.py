@@ -208,13 +208,16 @@ def remove_like_from_post_group_view(request, username, post_pk, page):
 
     return redirect(reverse('groups:single', kwargs={'slug':post.group.slug}) + "?page=" + page)
 
+import cloudinary.uploader
+import cloudinary
+
 @login_required
 def update_profile_picture(request, username):
     profile = get_object_or_404(Profile, user=request.user)
 
     #delete previous profile picture from memory
-    if profile.avatar and profile.avatar != 'profile_pics/default.jpg':
-        profile.avatar.delete()
+    if profile.avatar:
+        cloudinary.uploader.destroy(profile.avatar.public_id,invalidate=True)
 
     if request.method == 'POST':
         form = forms.ProfileForm(request.POST, request.FILES, instance=profile)

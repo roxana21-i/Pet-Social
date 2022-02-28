@@ -8,7 +8,7 @@
   <div class="col-md-4 p-3">
     <h1>@{{ post_user.username }}</h1>
     <div class="container p-3 mt-2">
-      <img src="{% cloudinary 'post_user.profile.avatar.url'  gravity=g_auto width=200 height=200 crop=fill %}" alt="">
+      {% cloudinary post_user.profile.avatar width=200 height=200 crop="fill" gravity="auto" %}
     </div>
     {% if user.is_authenticated and user.username == post_user.username %}
       <div class="container p-3 mt-2">

@@ -2,10 +2,20 @@
 {% load bootstrap5 %}
 
 {% block group_content %}
-  <h4>Create a new group!</h4>
-  <form action="{% url 'groups:create' %}" method="post" id='groupForm'>
-    {% csrf_token %}
-    {% bootstrap_form form %}
-    <input type="submit" class="btn btn-primary btn-large" value="Create">
-  </form>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-2">
+      </div>
+      <div class="col-md-8 mt-4">
+        <h1 class="text-center">Create a new group!</h1>
+        <hr>
+        <h4 class="text-muted text-center">Bring your wonderful community to life!</h4>
+        <form action="{% url 'groups:create' %}" method="post" id='groupForm'>
+          {% csrf_token %}
+          {% bootstrap_form form %}
+          <input type="submit" class="btn btn-outline-success btn-large" value="Create">
+        </form>
+      </div>
+    </div>
+  </div>
 {% endblock %}

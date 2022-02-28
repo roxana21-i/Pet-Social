@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 
 from pathlib import Path
 import django_heroku
+import cloudinary
+import cloudinary_storage
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -40,6 +42,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'imagekit',
     'bootstrap5',
+    'cloudinary',
+    'cloudinary_storage',
     'accounts',
     'groups',
     'posts',
@@ -124,6 +128,15 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+
+# Cloudinary stuff
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': 'hkeiufmpv',
+    'API_KEY': '326798162376227',
+    'API_SECRET': 'yLZ1H9WFThUbzTJ68xzK6zJxCgM',
+}
+
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 
 STATIC_URL = '/static/'
